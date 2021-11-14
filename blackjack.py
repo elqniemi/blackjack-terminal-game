@@ -37,7 +37,7 @@ def blackjack_cards(decks_amt, deck) -> object:
 
 class Player:
 
-    def __init__(self, money, name):
+    def __init__(self, name, money):
         self.money = money
         self.name = name
 
@@ -80,7 +80,11 @@ class Player:
 
     def bet(self, amount_bet):
         self.amount_bet = amount_bet
-        self.money = self.money - amount_bet
+        self.money = self.money - self.amount_bet
+        return self.amount_bet
+
+    def total(self):
+        return self.money
 
     def name(self):
         return str(self.name())
@@ -125,7 +129,7 @@ player_names = []
 
 for player in range(amt_of_players):
     print(f"Input Player {player + 1} money and name.")
-    playerobj = Player(input("Amount of money:"), input("Player name:"))
+    playerobj = Player(input("Player name:"), int(input("Amount of money:")))
     player_names.append(playerobj)
 
 playing_cards = blackjack_cards(int(input('How many decks? ')), deck)
@@ -155,7 +159,15 @@ def blackjack(sum_cards):
 
 def round_of_blackjack(players):
     print('Dealer: Place your bets!')
-    # player_1.bet(int(input('Bet amount: ')))
+    bets_round = [player.bet(int(input('Bet size:'))) for player in players]
+
+    for player in range(len(player_names)):
+        money = player_names[player].total()
+        print(f"Player {player + 1} has {money} money left")
+
+
+
+
     input("Press any key to deal...")
 
     round_dealer = dealer.deal(playing_cards)
